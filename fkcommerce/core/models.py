@@ -10,7 +10,7 @@ class Category(db.Model):
     name = Column(String(50) , unique=True , nullable=False)
     slug = Column(String(100) , unique=True , nullable=False)
     is_active = Column(Boolean , default=False)
-    parent_id = Column(Integer , ForeignKey("category.id"))
+    parent_id = Column(Integer , ForeignKey("category.id") , nullable=True)
     
     def __repr__(self):
         return f"<Name: {self.name} >"
@@ -48,8 +48,8 @@ class ProductLine(db.Model):
     
     def __repr__(self):
         return f"ProductLine {self.id}"
-    
-    class ProductImage(db.Model):
+
+class ProductImage(db.Model):
         __tablename__ = "product_image"
         
         id = Column(Integer , primary_key=True)
@@ -58,8 +58,8 @@ class ProductLine(db.Model):
         order = Column(Integer)
         product_line_id = Column(Integer , ForeignKey("product_line.id"))
     
-    def __repr__(self):
-        return f"ProductImage {self.id}"
+        def __repr__(self):
+            return f"ProductImage {self.id}"
 
 class SeasonalEvent(db.Model):
     __tablename__ = "seasonal_event"
