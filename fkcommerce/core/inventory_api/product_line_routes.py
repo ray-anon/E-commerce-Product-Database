@@ -12,10 +12,10 @@ product_line_schema = ProductLineSchema()
 
 
 
-@inventory_line_product_api_blueprint.route("/product-image-line" , methods=['POST'])
+@inventory_line_product_api_blueprint.route("/product-line" , methods=['POST'])
 @body(product_line_schema)
 @response(product_line_schema)
-def product_line_image_insert(kwargs):
+def product_line_insert(kwargs):
     new_product_line = ProductLine(**kwargs)
     database.session.add(new_product_line)
     database.session.commit()

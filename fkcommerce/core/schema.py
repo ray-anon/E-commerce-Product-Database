@@ -21,6 +21,7 @@ class ProductSchema(ma.Schema):
     category_id = ma.Integer()
     stock_status = ma.String(dump_only=True)
     created_at = ma.DateTime(dump_only=True)
+    seasonal_event = ma.Integer(allow_none=True)
     
 class ProductLineSchema(ma.Schema):
     id = ma.Integer(dump_only=True)
@@ -44,3 +45,19 @@ class AttributeSchema(ma.Schema):
     id = ma.Integer(dump_only=True)
     name = ma.String(required=True)
     description = ma.String()
+
+class SeasonalSchema(ma.Schema):
+    id = ma.Integer(dump_only=True)
+    start_date = ma.DateTime()
+    end_date = ma.DateTime()
+    name = ma.String(required=True)
+    
+
+class TypeSchema(ma.Schema):
+    name = ma.String(required=True)
+    parent_id = ma.Integer(allow_none=True)
+
+class AttributeValueSchema(ma.Schema):
+    id = ma.Integer(dump_only=True)
+    attribute_value = ma.String(required=True)
+    attribute_id = ma.Integer()
