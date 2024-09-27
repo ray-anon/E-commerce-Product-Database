@@ -22,6 +22,7 @@ class ProductSchema(ma.Schema):
     stock_status = ma.String(dump_only=True)
     created_at = ma.DateTime(dump_only=True)
     seasonal_event = ma.Integer(allow_none=True)
+    product_type_ids = ma.List(ma.Integer() , required=True)
     
 class ProductLineSchema(ma.Schema):
     id = ma.Integer(dump_only=True)
@@ -33,6 +34,8 @@ class ProductLineSchema(ma.Schema):
     weight = ma.Float()
     product_id = ma.Integer()
     created_at = ma.DateTime(dump_only=True)
+    product_attributes_ids = ma.List(ma.Integer() , required=True)
+
 
 class ProductLineImageSchema(ma.Schema):
     id = ma.Integer(dump_only=True)

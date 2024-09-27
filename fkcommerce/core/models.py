@@ -1,6 +1,7 @@
 from core import database as db
 from sqlalchemy import Column , Integer , String , Boolean , ForeignKey , text , Text , DateTime , DECIMAL , Float
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import relationship
 import uuid
 
 class Category(db.Model):
@@ -30,7 +31,7 @@ class Product(db.Model):
     stock_status = Column(String(100) , default="out of stock")
     category_id = Column(Integer , ForeignKey("category.id"))
     seasonal_event = Column(Integer , ForeignKey("seasonal_event.id") , nullable=True)
-    
+    product_types = relationship("ProductType" , secondary="product_product_type" , back_populates="products")
     def __repr__(self):
         return f"<Name: {self.name} >"
 
@@ -45,6 +46,10 @@ class ProductLine(db.Model):
     weight = Column(Float)
     created_at = Column(DateTime , server_default=db.text("CURRENT_TIMESTAMP"))
     product_id = Column(Integer , ForeignKey("product.id"))
+    
+    product_attribute = relationship(
+        "AttributeValue" , secondary="product_line_attribute_value" , back_populates="product_line"
+    )
     
     def __repr__(self):
         return f"ProductLine {self.id}"
@@ -89,6 +94,10 @@ class AttributeValue(db.Model):
     attribute_value = Column(String(200))
     attribute_id = Column(Integer , ForeignKey("attribute.id"))
     
+    product_line = relationship(
+        "ProductLine" , secondary="product_line_attribute_value" , back_populates="product_attribute"
+    )
+    
     def __repr__(self):
         return self.attribute_value 
 
@@ -98,6 +107,8 @@ class ProductType(db.Model):
     id = Column(Integer , primary_key=True)
     name = Column(String(100))
     parent_id = Column(Integer , ForeignKey("product_type.id"))
+    
+    products = relationship("Product" , secondary="product_product_type" , back_populates="product_types")
     
     def __repr__(self):
         return self.name 
